@@ -22,7 +22,12 @@ namespace FinalCourseAssignment.Data.Repositories
             entity.Id = Guid.NewGuid();
 
             entities.Add(entity);
-            _dbContext.SaveChangesAsync();
+            if(await _dbContext.SaveChangesAsync() != 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> DeleteById(Guid id)
@@ -40,7 +45,7 @@ namespace FinalCourseAssignment.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public bool Update(TDto dto)
+        public Task<bool> Update(TDto dto)
         {
             throw new NotImplementedException();
         }
