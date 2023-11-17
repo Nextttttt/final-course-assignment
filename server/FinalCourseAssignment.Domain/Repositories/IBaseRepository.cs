@@ -1,15 +1,17 @@
+using System;
+using System.Threading.Tasks;
+
 namespace FinalCourseAssignment.Domain
 {
-    public interface IBaseRepository
+    public interface IBaseRepository<TDto>
+    where TDto : BaseModel
     {
-        public bool Create();
+        public Task<bool> Create(TDto dto);
 
-        public BaseModel GetById(Guid id);
+        public Task<TDto> GetById(Guid id);
 
-        public bool UpdateById(Guid id);
+        public Task<bool> Update(TDto dto);
 
-        public bool DeleteById(Guid id);
-
-        private bool Save(User user);
+        public Task<bool> DeleteById(Guid id);
     }
 }
