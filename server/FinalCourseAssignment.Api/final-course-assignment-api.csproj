@@ -16,4 +16,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FinalCourseAssignment.Domain\FinalCourseAssignment.Domain.csproj" />
+    <ProjectReference Include="..\FinalCourseAssignment.Services\FinalCourseAssignment.Services.csproj" />
+  </ItemGroup>
+
 </Project>
