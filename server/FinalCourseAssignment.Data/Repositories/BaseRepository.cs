@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FinalCourseAssignment.Data.Entities;
 using FinalCourseAssignment.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalCourseAssignment.Data.Repositories
 {
@@ -16,6 +16,14 @@ namespace FinalCourseAssignment.Data.Repositories
         protected readonly ApplicationDbContext _dbContext;
         protected readonly IMapper _mapper;
         protected readonly DbSet<TEntity> entities;
+
+        public BaseRepository(ApplicationDbContext dbContext, IMapper mapper)
+        {
+            _dbContext = dbContext;
+            _mapper = mapper;
+            entities = dbContext.Set<TEntity>();
+        }
+
         public async Task<bool> Create(TDto dto)
         {
             TEntity entity = _mapper.Map<TEntity>(dto);
@@ -32,22 +40,35 @@ namespace FinalCourseAssignment.Data.Repositories
 
         public async Task<bool> DeleteById(Guid id)
         {
-            throw new NotImplementedException();
+            _dbContext.Remove(entities.FirstOrDefault(e => e.Id == id));
+            
+            if(await _dbContext.SaveChangesAsync() != 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<TDto> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            TEntity entity = await entities.FirstOrDefaultAsync(e => e.Id == id);
+            TDto dto = _mapper.Map<TDto>(entity);
+
+            return dto;
         }
 
-        private async Task<bool> Save(BaseModel user)
+        public async Task<bool> Update(TDto dto)
         {
-            throw new NotImplementedException();
-        }
+            TEntity entity = _mapper.Map<TEntity>(dto);
 
-        public Task<bool> Update(TDto dto)
-        {
-            throw new NotImplementedException();
+            if(entities.Any(e => e.Id == entity.Id))
+            {
+                _dbContext.Update(entity);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -1,13 +1,16 @@
-namespace FinalCourseAssignment.Domain
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace FinalCourseAssignment.Domain.Services
 {
-    public interface IBaseService
+    public interface IBaseService<TDto>
+    where TDto : BaseModel
     {
-        public bool Create();
-
-        public BaseModel GetById(Guid id);
-
-        public bool UpdateById(Guid id);
-
-        public bool DeleteById(GUid id);
+        public Task<bool> Create(TDto dto);
+        public Task<TDto> GetById(Guid id);
+        public Task<bool> Update(TDto dto);
+        public Task<bool> DeleteById(Guid id);
     }
 }

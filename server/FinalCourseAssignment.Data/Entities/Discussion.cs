@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.AccessControl;
 using FinalCourseAssignment.Data.Entities;
-namespace FinalCourseAssignment.Data
+namespace FinalCourseAssignment.Data.Entities
 {
     public class Discussion : BaseEntity
     {
@@ -12,6 +13,6 @@ namespace FinalCourseAssignment.Data
         public string DiscussionText { get; set; }
         public List<Comment> Comments { get; set; }
         [Required]
-        public User UserCreater { get; set; }
+        public Guid UserCreaterId { get; set; }
     }
 }
