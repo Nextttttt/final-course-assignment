@@ -1,3 +1,5 @@
+using System;
+
 namespace FinalCourseAssignment.Domain
 {
     public class BaseModel

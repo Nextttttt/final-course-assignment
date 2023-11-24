@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace final_course_assignment_api
+namespace FinalCourseAssignment.Api
 {
     public class Program
     {
@@ -20,6 +20,7 @@ namespace final_course_assignment_api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseKestrel();
                     webBuilder.UseStartup<Startup>();
                 });
     }

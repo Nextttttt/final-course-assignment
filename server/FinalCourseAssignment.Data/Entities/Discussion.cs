@@ -13,6 +13,6 @@ namespace FinalCourseAssignment.Data.Entities
         public string DiscussionText { get; set; }
         public List<Comment> Comments { get; set; }
         [Required]
-        public Guid UserCreaterId { get; set; }
+        public User UserCreator { get; set; }
     }
 }
