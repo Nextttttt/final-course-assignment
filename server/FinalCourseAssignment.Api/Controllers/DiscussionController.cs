@@ -24,7 +24,7 @@ namespace FinalCourseAssignment.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("CreateDiscussion")]
         public async Task<IActionResult> Create([FromQuery] DiscussionCreateViewModel model)
         {
             DiscussionDto dto = _mapper.Map<DiscussionDto>(model);
@@ -34,20 +34,20 @@ namespace FinalCourseAssignment.Api.Controllers
             return Created();
         }
 
-        [HttpGet]
+        [HttpGet("GetDiscussion/")]
         public async Task<IActionResult> GetById([FromHeader] Guid id)
         {
             return Ok(_mapper.Map<DiscussionViewModel>(await _discussionService.GetById(id)));
         }
 
-        [HttpPut]
+        [HttpPut("UpdateDiscussion")]
         public async Task<IActionResult> Update([FromQuery] DiscussionUpdateViewModel model)
         {
             await _discussionService.Update(_mapper.Map<DiscussionDto>(model));
 
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete("DeleteDiscussion/")]
         public async Task<IActionResult> Delete([FromHeader] Guid id)
         {
             await _discussionService.DeleteById(id);

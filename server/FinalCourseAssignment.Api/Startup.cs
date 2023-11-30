@@ -21,6 +21,9 @@ using Microsoft.IdentityModel.Protocols;
 using System.Configuration;
 using System.Text.Json.Serialization;
 using FinalCourseAssignment.Domain;
+using FinalCourseAssignment.Data.Repositories;
+using FinalCourseAssignment.Services.Services;
+using FinalCourseAssignment.Data;
 
 namespace FinalCourseAssignment.Api
 {
@@ -39,20 +42,18 @@ namespace FinalCourseAssignment.Api
             services.AddCors();
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "final_course_assignment_api", Version = "v1" });
-            });
 
             services.AddAutofac();
             services.AddHttpContextAccessor();
             services.AddLogging();
 
             services.AddFinalAssignmentSwagger();
+          
             //services.AddFinalAssignmentAuth(Configuration);
             services.AddFinalAssignmentRepositories(Configuration);
             //services.AddFinalAssignmentServices();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -62,11 +63,20 @@ namespace FinalCourseAssignment.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+
+            //dbcontext.Database.Migrate();
 
             app.UseRouting();
 
             app.UseCors(Configuration.GetSection("Cors").Get<CorsSettings>());
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api Gateway v1");
+            });
+
 
             app.UseAuthentication();
             app.UseAuthorization();
