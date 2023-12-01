@@ -7,6 +7,8 @@ namespace FinalCourseAssignment.Domain.Models
 {
     public class CommentDto : BaseModel
     {
-        
+        public string Text { get; set; }
+
+        public Guid CreaterId { get; set; } 
     }
 }
