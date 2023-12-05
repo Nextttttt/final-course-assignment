@@ -9,6 +9,8 @@ namespace FinalCourseAssignment.Domain.Models
     {
         public string Text { get; set; }
 
-        public Guid CreaterId { get; set; } 
+        public Guid DiscussionId { get; set; }
+
+        public Guid UserId { get; set; } 
     }
 }

@@ -19,7 +19,7 @@ namespace FinalCourseAssignment.Services.Services
             _baseRepository = baseRepository;
         }
 
-        public async Task<bool> Create(TDto dto)
+        virtual public async Task<Guid> Create(TDto dto)
         {
            return await _baseRepository.Create(dto);
         }
@@ -37,6 +37,11 @@ namespace FinalCourseAssignment.Services.Services
         public async Task<bool> Update(TDto dto)
         {
             return await _baseRepository.Update(dto);
+        }
+
+        public async Task<List<TDto>> GetAll()
+        {
+            return await _baseRepository.GetAll();
         }
     }
 }

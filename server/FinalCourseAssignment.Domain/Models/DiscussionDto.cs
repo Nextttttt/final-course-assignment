@@ -10,6 +10,6 @@ namespace FinalCourseAssignment.Domain.Models
         public string Title { get; set; }
         public string DiscussionText { get; set; }
         public List<CommentDto> Comments { get; set; }
-        public Guid UserCreaterId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

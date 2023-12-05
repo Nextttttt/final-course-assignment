@@ -10,6 +10,6 @@ namespace FinalCourseAssignment.Api.ViewModels
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string DiscussionText { get; set; }
-        public Guid UserCreatorId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

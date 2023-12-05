@@ -24,6 +24,8 @@ using FinalCourseAssignment.Domain;
 using FinalCourseAssignment.Data.Repositories;
 using FinalCourseAssignment.Services.Services;
 using FinalCourseAssignment.Data;
+using FinalCourseAssignment.Services;
+using FinalCourseAssignment.Domain.Services;
 
 namespace FinalCourseAssignment.Api
 {
@@ -48,15 +50,31 @@ namespace FinalCourseAssignment.Api
             services.AddLogging();
 
             services.AddFinalAssignmentSwagger();
-          
-            //services.AddFinalAssignmentAuth(Configuration);
+            services.AddFinalAssignmentAuth(Configuration);
             services.AddFinalAssignmentRepositories(Configuration);
-            //services.AddFinalAssignmentServices();
+            services.AddFinalAssignmentServices();
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(BaseRepository<,>)))
+                   .Where(t => t.Name.EndsWith("Repository"))
+                   .InstancePerLifetimeScope()
+                   .AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(BaseService<>)))
+                   .Where(t => t.Name.EndsWith("Service"))
+                   .InstancePerLifetimeScope()
+                   .AsImplementedInterfaces();
+
+            builder.RegisterType<KeyDerivationWrapper>().As<IKeyDerivationWrapper>().InstancePerLifetimeScope();
+            builder.RegisterType<SaltGenerator>().As<ISaltGenerator>().InstancePerLifetimeScope();
+            builder.RegisterType<DateTimeProvider>().As<IDateTimeProvider>().InstancePerLifetimeScope();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -65,9 +83,7 @@ namespace FinalCourseAssignment.Api
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
 
-            //dbcontext.Database.Migrate();
-
-            app.UseRouting();
+            dbContext.Database.Migrate();
 
             app.UseCors(Configuration.GetSection("Cors").Get<CorsSettings>());
 
@@ -77,7 +93,7 @@ namespace FinalCourseAssignment.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api Gateway v1");
             });
 
-
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 

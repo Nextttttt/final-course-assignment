@@ -24,7 +24,7 @@ namespace FinalCourseAssignment.Data.Repositories
             entities = dbContext.Set<TEntity>();
         }
 
-        public async Task<bool> Create(TDto dto)
+        public virtual async Task<Guid> Create(TDto dto)
         {
             TEntity entity = _mapper.Map<TEntity>(dto);
             entity.Id = Guid.NewGuid();
@@ -32,10 +32,10 @@ namespace FinalCourseAssignment.Data.Repositories
             entities.Add(entity);
             if(await _dbContext.SaveChangesAsync() != 0)
             {
-                return true;
+                return entity.Id;
             }
 
-            return false;
+            throw new Exception("Entity not Created!");
         }
 
         public async Task<bool> DeleteById(Guid id)
@@ -47,6 +47,11 @@ namespace FinalCourseAssignment.Data.Repositories
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<TDto>> GetAll()
+        {
+            return _mapper.Map<List<TDto>>(await entities.ToListAsync());
         }
 
         public async Task<TDto> GetById(Guid id)

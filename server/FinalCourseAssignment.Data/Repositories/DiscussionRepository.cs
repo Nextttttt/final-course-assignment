@@ -2,6 +2,8 @@ using AutoMapper;
 using FinalCourseAssignment.Data.Entities;
 using FinalCourseAssignment.Domain;
 using FinalCourseAssignment.Domain.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace FinalCourseAssignment.Data.Repositories
 {
@@ -11,6 +13,16 @@ namespace FinalCourseAssignment.Data.Repositories
         :base(dbContext,mapper)
         {
             
+        }
+
+        public override async Task<Guid> Create(DiscussionDto dto)
+        {
+            Discussion newDisc = _mapper.Map<Discussion>(dto);
+
+            entities.Add(newDisc);
+            await _dbContext.SaveChangesAsync();
+
+            return newDisc.Id;
         }
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalCourseAssignment.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231130094019_InitialCreate")]
+    [Migration("20231205154846_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -32,22 +32,24 @@ namespace FinalCourseAssignment.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("DiscussionId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserCreaterId")
+                    b.Property<Guid?>("UserId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DiscussionId");
 
-                    b.HasIndex("UserCreaterId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("FinalCourseAssignment.Data.Entities.Discussion", b =>
@@ -64,12 +66,12 @@ namespace FinalCourseAssignment.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserCreatorId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserCreatorId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Discussions");
                 });
@@ -81,43 +83,51 @@ namespace FinalCourseAssignment.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FinalCourseAssignment.Data.Comment", b =>
                 {
                     b.HasOne("FinalCourseAssignment.Data.Entities.Discussion", "Discussion")
                         .WithMany("Comments")
-                        .HasForeignKey("DiscussionId");
+                        .HasForeignKey("DiscussionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("FinalCourseAssignment.Data.User", "UserCreater")
+                    b.HasOne("FinalCourseAssignment.Data.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserCreaterId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Discussion");
 
-                    b.Navigation("UserCreater");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FinalCourseAssignment.Data.Entities.Discussion", b =>
                 {
-                    b.HasOne("FinalCourseAssignment.Data.User", "UserCreator")
+                    b.HasOne("FinalCourseAssignment.Data.User", "User")
                         .WithMany("Discussions")
-                        .HasForeignKey("UserCreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("UserCreator");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FinalCourseAssignment.Data.Entities.Discussion", b =>
