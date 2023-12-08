@@ -190,3 +190,33 @@ button.create-discussion.btn.btn-custom{
 .action-btn{
 	margin-right: 8px;
 }
+.comment-section{
+	background-color: #1e1e1e;
+}
+.card.comment-card{
+	--bs-card-bg: #2a2a2a;
+	border-bottom: 2px solid #d600cf4e;
+	border-left: 2px solid #d600cf4e;
+	box-shadow: 0 4px 10px 0px #d300cc96;
+	color:#FFFFFF;
+}
+.link-mydark{
+	color:#B500AF;
+	text-decoration: none;
+}
+.link-mydark:hover{
+	color:#fff;
+}
+
+button.btn.btn-custom2{
+	display: block;
+	color: #fff;
+	border-bottom: 2px solid #4a4a4a;
+	border-right: 2px solid #515151;
+	border-radius: 0px;
+	border-bottom-right-radius: 20px;
+}
+
+button.btn.btn-custom2:hover{
+	color: #B500AF;
+}

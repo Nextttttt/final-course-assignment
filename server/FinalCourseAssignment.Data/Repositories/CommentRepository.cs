@@ -19,7 +19,7 @@ namespace FinalCourseAssignment.Data.Repositories
 
         public async Task<List<CommentDto>> GetAllByDiscussionId(Guid id)
         {
-            return _mapper.Map<List<CommentDto>>(await entities.Where(e => e.DiscussionId == id).ToListAsync());
+            return _mapper.Map<List<CommentDto>>(await entities.Where(e => e.DiscussionId == id).Include(e=> e.User).ToListAsync());
         }
     }
 }

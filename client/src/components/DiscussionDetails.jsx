@@ -1,18 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-
+import Comment from './Comment';
 export default function DiscussionDetails(props){
-    const discussionData = {
-        title: 'Sample Discussion Title',
-        username: 'JohnDoe123',
-        body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        comments: [
-          { id: 1, username: 'Commenter1', text: 'Great discussion!' },
-          { id: 2, username: 'Commenter2', text: 'I have a different opinion.' },
-          // Add more comments as needed
-        ],
-      };
 
       const params = useParams();
 
@@ -31,6 +21,7 @@ export default function DiscussionDetails(props){
             }],
             commentCount:''
         });
+        
         async function GetDiscussion()
         {
         let response =await fetch('https://localhost:5001/api/Discussion/GetDiscussion?id='+params.discussionId,{
@@ -44,6 +35,7 @@ export default function DiscussionDetails(props){
         {
         let data = await response.json();
         setDiscussion(data);
+        console.log(discussion);
         }
         else{
         console.log("HTTP-Error: "+response.status);
@@ -64,14 +56,7 @@ export default function DiscussionDetails(props){
 
       <div style={{ marginTop: '30px' }}>
         <h2>Comments</h2>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {discussion.comments.map((comment) => (
-            <li key={comment.id} style={{ marginBottom: '15px', border: '1px solid #ddd', padding: '10px', borderRadius: '4px' }}>
-              <p style={{ fontSize: '12px', color: '#888' }}>by {comment.userName}</p>
-              <p>{comment.text}</p>
-            </li>
-          ))}
-        </ul>
+        <Comment jwToken={props.jwToken} isLoggedIn={props.isLoggedIn} Comments={discussion.comments} discussionId={discussion.id}/>
       </div>
     </div>
         </>

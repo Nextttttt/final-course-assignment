@@ -70,7 +70,7 @@ namespace FinalCourseAssignment.Api.Controllers
         }
         [Authorize]
         [HttpDelete("DeleteComment/")]
-        public async Task<IActionResult> Delete([FromHeader] Guid id)
+        public async Task<IActionResult> Delete([FromQuery] Guid id)
         {
             await _commentService.DeleteById(id);
 
