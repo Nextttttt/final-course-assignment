@@ -1,27 +1,27 @@
 import { BrowserRouter, Route, Routes, Router } from 'react-router-dom';
 import './App.css';
-import UserLogin from './components/UserLogin';
+import UserLogin from './components/UsersComponents/UserLogin';
 import Home from './components/Home';
 import NavigationMenu from './components/NavigationMenu';
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ForumList from './components/ForumList';
-import MyDiscussionsList from './components/MyDiscussionsList';
-import DiscussionDetails from './components/DiscussionDetails';
+import ForumList from './components/DiscussionsComponents/ForumList';
+import MyDiscussionsList from './components/DiscussionsComponents/MyDiscussionsList';
+import DiscussionDetails from './components/DiscussionsComponents/DiscussionDetails';
 
 
 function App() {
 
   const [loggedIn, setLoggedIn] = useState(false)
 
-  const [jwToken, setToken] = useState("");
+  const [jwToken, setToken] = useState(localStorage.getItem("jwToken"));
 
-  const loggedToken = localStorage.getItem("jwToken");
-  if(loggedToken)
+  useEffect(() =>{
+    if(jwToken !== null)
   {
     setLoggedIn(true);
-    setToken(loggedToken);
   }
+  },[jwToken]);
 
   return (
 

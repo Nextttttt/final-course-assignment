@@ -11,14 +11,14 @@ import {
   MDBTypography,
 } from "mdb-react-ui-kit";
 import CreateComment from "./CreateComment";
+import {jwtDecode} from 'jwt-decode';
 
 export default function Comment(props) {
-
-    console.log(props.Comments);
-
+    const loggedInUserId = Object.values(jwtDecode(props.jwToken))[0];
+     
     async function DeleteComment(id)
     {
-        console.log(id);
+
         let response =await fetch('https://localhost:5001/api/Comment/DeleteComment?id='+id,{
     method: 'DELETE',
     headers:{
@@ -28,7 +28,7 @@ export default function Comment(props) {
     }});
     if(response.ok)
     {
-        //setIsNew(true);
+        setIsNew(true);
     }
     else{
     console.log("HTTP-Error: "+response.status);
@@ -36,7 +36,7 @@ export default function Comment(props) {
     }
   return (
     <section className="comment-section">
-        <CreateComment jwToken={props.jwToken} discussionId={props.discussionId} />
+        <CreateComment setIsNew={props.setIsNew} jwToken={props.jwToken} discussionId={props.discussionId} />
       <MDBContainer className="py-5 text-dark" style={{ maxWidth: "1000px" }}>
         <MDBRow className="justify-content-center">
           <MDBCol md="12" lg="10" xl="8">
@@ -55,10 +55,11 @@ export default function Comment(props) {
                         {comment.text}
                       </span>
                     </MDBTypography>
-                    
+
                   </div>
-                  {props.isLoggedIn ?
-                  (<div className="d-flex justify-content-end">
+                  {props.isLoggedIn && comment.userId == loggedInUserId ?
+                  (
+                  <div className="d-flex justify-content-end">
                   <p className="small mb-0" style={{ color: "#aaa" }}>
                     <a onClick={() => DeleteComment(comment.id)} href="#!" className="link-mydark">
                       Remove

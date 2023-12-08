@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import UserLogin from './UserLogin';
-import UserRegister from './UserRegister';
+import UserLogin from './UsersComponents/UserLogin';
+import UserRegister from './UsersComponents/UserRegister';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -18,8 +18,16 @@ export default function NavigationMenu(props) {
       function Logout(){
         localStorage.removeItem("jwToken");
         props.setLoggedIn(false);
-        props.setToken("");
       }
+
+      useEffect(() =>{
+        const loggedToken = localStorage.getItem("jwToken");
+        if(loggedToken !== null)
+        {
+          props.setLoggedIn(false);
+          props.setToken(loggedToken);
+        }
+      },[]);
       
   return (
     <nav id='menu'>

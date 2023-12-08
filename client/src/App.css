@@ -167,14 +167,7 @@ table.table tbody tr{
 	border-bottom: 0px;
 	margin-bottom: 6px;
 }
-tr td:nth-child(1){
-	border-top-left-radius: 50px;
-	border-bottom-left-radius: 50px;
-}
-tr td:nth-child(3){
-	border-top-right-radius: 50px;
-	border-bottom-right-radius: 50px;
-}
+
 table.table{
 	border-collapse: separate;
 	border-spacing: 0 15px;

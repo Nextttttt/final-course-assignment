@@ -1,10 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import Comment from './Comment';
+import Comment from '../CommentsComponents/Comment';
 export default function DiscussionDetails(props){
 
       const params = useParams();
+
+      const [isNewCreated, setIsNew] = useState(false);
 
       const [discussion, setDiscussion] = useState(
         {
@@ -35,7 +37,6 @@ export default function DiscussionDetails(props){
         {
         let data = await response.json();
         setDiscussion(data);
-        console.log(discussion);
         }
         else{
         console.log("HTTP-Error: "+response.status);
@@ -43,7 +44,8 @@ export default function DiscussionDetails(props){
     }
     useEffect(() => {
       GetDiscussion();
-      }, [])
+      setIsNew(false);
+      }, [isNewCreated])
     return (
         <>
         <div>
@@ -56,7 +58,7 @@ export default function DiscussionDetails(props){
 
       <div style={{ marginTop: '30px' }}>
         <h2>Comments</h2>
-        <Comment jwToken={props.jwToken} isLoggedIn={props.isLoggedIn} Comments={discussion.comments} discussionId={discussion.id}/>
+        <Comment setIsNew={setIsNew} jwToken={props.jwToken} isLoggedIn={props.isLoggedIn} Comments={discussion.comments} discussionId={discussion.id}/>
       </div>
     </div>
         </>

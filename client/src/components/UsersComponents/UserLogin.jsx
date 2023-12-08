@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -16,8 +16,6 @@ export default function UserLogin(props){
 
     const navigate = useNavigate();
 
-        
-
     const LoginUser = async () => {
 
         let response =await fetch('https://localhost:5001/api/User/Login',{
@@ -33,9 +31,8 @@ export default function UserLogin(props){
     });
         if(response.ok)
         {
-          props.setToken(await response.json());
           props.setLoggedIn(true);
-          localStorage.setItem("jwt", props.jwToken)
+          localStorage.setItem("jwToken", await response.json());
         }
         else{
           console.log("HTTP-Error: "+response.status);

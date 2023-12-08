@@ -44,6 +44,7 @@ export default function ForumList(props){
 
 
         const HandleDiscussonRowRouting = (id) => {
+          if(props.isLoggedIn)
             navigation('/discussions/details/'+id);
         }
 
