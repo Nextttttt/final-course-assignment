@@ -17,7 +17,7 @@ namespace FinalCourseAssignment.Services.Services
         public CommentService(ICommentRepository commentRepository)
             :base(commentRepository)
         {
-            
+            _commentRepository = commentRepository;
         }
 
         public async Task<List<CommentDto>> GetAllByDiscussionId(Guid id)

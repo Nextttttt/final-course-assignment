@@ -1,6 +1,8 @@
 import React from 'react';
+import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 
-export default function DiscussionDetails(){
+export default function DiscussionDetails(props){
     const discussionData = {
         title: 'Sample Discussion Title',
         username: 'JohnDoe123',
@@ -11,22 +13,61 @@ export default function DiscussionDetails(){
           // Add more comments as needed
         ],
       };
+
+      const params = useParams();
+
+      const [discussion, setDiscussion] = useState(
+        {
+            id:'',
+            title:'',
+            discussionText:'',
+            userId:'',
+            userName:'',
+            comments:[{
+              id:'',
+              text:'',
+              userName:'',
+              userId:''
+            }],
+            commentCount:''
+        });
+        async function GetDiscussion()
+        {
+        let response =await fetch('https://localhost:5001/api/Discussion/GetDiscussion?id='+params.discussionId,{
+        method: 'GET',
+        headers:{
+        'accept':'*/*',
+        'Authorization': 'Bearer ' + props.jwToken,
+        'Content-type':'application/json'
+        }});
+        if(response.ok)
+        {
+        let data = await response.json();
+        setDiscussion(data);
+        }
+        else{
+        console.log("HTTP-Error: "+response.status);
+        }
+    }
+    useEffect(() => {
+      GetDiscussion();
+      }, [])
     return (
         <>
         <div>
-      <h1>{discussionData.title}</h1>
-      <p style={{ fontSize: '14px', color: '#888' }}>by {discussionData.username}</p>
+      <h1>{discussion.title}</h1>
+      <p style={{ fontSize: '14px', color: '#888' }}>by {discussion.userName}</p>
       
       <div style={{ marginTop: '20px' }}>
-        <p>{discussionData.body}</p>
+        <p>{discussion.discussionText}</p>
       </div>
 
       <div style={{ marginTop: '30px' }}>
         <h2>Comments</h2>
         <ul style={{ listStyle: 'none', padding: 0 }}>
-          {discussionData.comments.map((comment) => (
+          {discussion.comments.map((comment) => (
             <li key={comment.id} style={{ marginBottom: '15px', border: '1px solid #ddd', padding: '10px', borderRadius: '4px' }}>
-              <p style={{ fontSize: '12px', color: '#888' }}>by {comment.username}</p>
+              <p style={{ fontSize: '12px', color: '#888' }}>by {comment.userName}</p>
               <p>{comment.text}</p>
             </li>
           ))}

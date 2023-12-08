@@ -18,11 +18,13 @@ namespace FinalCourseAssignment.Api.Controllers
     [Route("api/[controller]")]
     public class DiscussionController : ControllerBase
     {
+        private readonly ICommentService _commentService;
         private readonly IDiscussionService _discussionService;
         private readonly IMapper _mapper;
 
-        public DiscussionController(IDiscussionService discussionService, IMapper mapper)
+        public DiscussionController(IDiscussionService discussionService, IMapper mapper, ICommentService commentService)
         {
+            _commentService = commentService;
             _discussionService = discussionService;
             _mapper = mapper;
         }
@@ -42,7 +44,9 @@ namespace FinalCourseAssignment.Api.Controllers
         [HttpGet("GetDiscussion/")]
         public async Task<IActionResult> GetById([FromQuery] Guid id)
         {
-            return Ok(_mapper.Map<DiscussionViewModel>(await _discussionService.GetById(id)));
+            DiscussionWithCommentsViewModel discussion = _mapper.Map<DiscussionWithCommentsViewModel>(await _discussionService.GetById(id));
+            discussion.Comments = _mapper.Map<List<CommentViewModel>>(await _commentService.GetAllByDiscussionId(discussion.Id));
+            return Ok(discussion);
         }
         [Authorize]
         [HttpGet("Top")]

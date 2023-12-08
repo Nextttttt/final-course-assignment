@@ -15,6 +15,11 @@ export default function NavigationMenu(props) {
           document.getElementById('menu').style.borderRadius = '0px';
         }
       }
+      function Logout(){
+        localStorage.removeItem("jwToken");
+        props.setLoggedIn(false);
+        props.setToken("");
+      }
       
   return (
     <nav id='menu'>
@@ -38,11 +43,11 @@ export default function NavigationMenu(props) {
     <ul>
     {props.isLoggedIn ? (
     <>
-    <li><Link>Profile</Link></li>
+    <li><Link onClick={Logout} to={'/'}>Logout</Link></li>
     </>
     ):(
     <>
-    <UserLogin setToken={props.setToken} setLoggedIn={props.setLoggedIn}/>
+    <UserLogin jwToken={props.jwToken} setToken={props.setToken} setLoggedIn={props.setLoggedIn}/>
     <span>/</span>
     <UserRegister />
     </>

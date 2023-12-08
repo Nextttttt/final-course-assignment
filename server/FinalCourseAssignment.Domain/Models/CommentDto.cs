@@ -11,6 +11,7 @@ namespace FinalCourseAssignment.Domain.Models
 
         public Guid DiscussionId { get; set; }
 
-        public Guid UserId { get; set; } 
+        public Guid UserId { get; set; }
+        public string UserName { get; set; }
     }
 }

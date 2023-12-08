@@ -27,6 +27,10 @@ namespace FinalCourseAssignment.Data.Repositories
 
             return newDisc.Id;
         }
+        public override async Task<DiscussionDto> GetById(Guid id)
+        {
+            return _mapper.Map<DiscussionDto>(await entities.Where(e => e.Id == id).Include(e => e.User).FirstOrDefaultAsync());
+        }
         public override async Task<List<DiscussionDto>> GetAll()
         {
             return _mapper.Map<List<DiscussionDto>>(await entities.Include(d => d.Comments).Include(e => e.User).ToListAsync());

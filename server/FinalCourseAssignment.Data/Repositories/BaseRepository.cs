@@ -54,7 +54,7 @@ namespace FinalCourseAssignment.Data.Repositories
             return _mapper.Map<List<TDto>>(await entities.ToListAsync());
         }
 
-        public async Task<TDto> GetById(Guid id)
+        public virtual async Task<TDto> GetById(Guid id)
         {
             TEntity entity = await entities.FirstOrDefaultAsync(e => e.Id == id);
             TDto dto = _mapper.Map<TDto>(entity);

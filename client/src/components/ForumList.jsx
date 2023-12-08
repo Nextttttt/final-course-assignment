@@ -2,9 +2,11 @@ import React from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button"
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CreateDiscussion from "./CreateDiscussion";
 export default function ForumList(props){
+
+        const navigation = useNavigate();
 
         const [isNewCreated, setIsNew] = useState(false);
 
@@ -39,6 +41,12 @@ export default function ForumList(props){
         GetDiscussions();
         setIsNew(false);
         }, [isNewCreated])
+
+
+        const HandleDiscussonRowRouting = (id) => {
+            navigation('/discussions/details/'+id);
+        }
+
     return (
         <>
         <div>{props.isLoggedIn ?
@@ -60,11 +68,11 @@ export default function ForumList(props){
         </thead>
         <tbody>
             {discussions.map(discussion =>
-                <tr key={discussion.id}>
+                <tr key={discussion.id} onClick={() => HandleDiscussonRowRouting(discussion.id)}>
                 <td className="align-middle">{discussion.title}</td>
                 <td className="align-middle">{discussion.userName}</td>
                 <td className="align-middle">{discussion.commentCount}</td>
-              </tr>
+                </tr>
                 )}
         </tbody>
       </Table>

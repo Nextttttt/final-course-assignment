@@ -13,7 +13,9 @@ namespace FinalCourseAssignment.Data
             CreateMap<Discussion, DiscussionDto>()
                 .ForMember(x => x.UserName, opt => opt.MapFrom(from => from.User.Username))
                 .ForMember(x => x.CommentCount, opt => opt.MapFrom(from => from.Comments.Count));
-            CreateMap<CommentDto, Comment>().ReverseMap();
+            CreateMap<CommentDto, Comment>();
+            CreateMap<Comment, CommentDto>()
+                .ForMember(x => x.UserName, opt => opt.MapFrom(from => from.User.Username));
             CreateMap<UserDto, User>().ReverseMap();
         }
     }

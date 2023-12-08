@@ -35,6 +35,7 @@ export default function UserLogin(props){
         {
           props.setToken(await response.json());
           props.setLoggedIn(true);
+          localStorage.setItem("jwt", props.jwToken)
         }
         else{
           console.log("HTTP-Error: "+response.status);
