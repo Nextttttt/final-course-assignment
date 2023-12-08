@@ -45,6 +45,21 @@ namespace FinalCourseAssignment.Api.Controllers
             return Ok(_mapper.Map<DiscussionViewModel>(await _discussionService.GetById(id)));
         }
         [Authorize]
+        [HttpGet("Top")]
+        public async Task<IActionResult> GetTopFiveDiscussions()
+        {
+            List<DiscussionTitleAndIdViewModel> discussions = _mapper.Map<List<DiscussionTitleAndIdViewModel>>(await _discussionService.GetTopFiveDiscussions());
+
+            return Ok(discussions);
+        }
+        [Authorize]
+        [HttpGet("My")]
+        public async Task<IActionResult> GetAllByUserId(Guid id)
+        {
+            List<DiscussionViewModel> discussions = _mapper.Map<List<DiscussionViewModel>>(await _discussionService.GetAllByUserId(id));
+
+            return Ok(discussions);
+        }
         [HttpGet("All")]
         public async Task<IActionResult> GetAll()
         {

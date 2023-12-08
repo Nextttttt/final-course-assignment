@@ -2,7 +2,10 @@ using AutoMapper;
 using FinalCourseAssignment.Data.Entities;
 using FinalCourseAssignment.Domain;
 using FinalCourseAssignment.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinalCourseAssignment.Data.Repositories
@@ -23,6 +26,16 @@ namespace FinalCourseAssignment.Data.Repositories
             await _dbContext.SaveChangesAsync();
 
             return newDisc.Id;
+        }
+
+        public async Task<List<DiscussionDto>> GetAllByUserId(Guid id)
+        {
+            return _mapper.Map<List<DiscussionDto>>(await entities.Where(e => e.UserId == id).ToListAsync());
+        }
+
+        public async Task<List<DiscussionDto>> GetTopFiveDiscussions()
+        {
+            return _mapper.Map<List<DiscussionDto>>(await entities.OrderByDescending(e => e.Comments.Count).Take(5).ToListAsync());
         }
     }
 }

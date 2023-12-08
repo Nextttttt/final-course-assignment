@@ -44,6 +44,15 @@ namespace FinalCourseAssignment.Api.Controllers
             return Ok(_mapper.Map<CommentViewModel>(await _commentService.GetById(id)));
         }
         [Authorize]
+        [HttpGet("GetByDiscId/")]
+        public async Task<IActionResult> GetAllByDiscussionId(Guid id)
+        {
+            List<CommentViewModel> comments = _mapper.Map<List<CommentViewModel>>(await _commentService.GetAllByDiscussionId(id));
+
+            return Ok(comments);
+        }
+
+        [Authorize]
         [HttpGet("All")]
         public async Task<IActionResult> GetAll()
         {

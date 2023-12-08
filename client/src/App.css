@@ -1,42 +1,189 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  color: #FFFFFF;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.App{
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1280px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#menu {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1280px;
+	background: #000000;
+	height: 58px;
+	padding-left: 18px;
+	border-radius: 0px;
+}
+#menu ul, #menu li {
+	margin: 0 auto;
+	padding: 0;
+	list-style: none
+}
+#menu ul {
+	width: 100%;
+	text-align: left;
+}
+#menu li {
+	display: inline-block;
+	position: relative;
+}
+#menu a {
+	display: block;
+	line-height: 58px;
+	padding: 0 14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-size: 16px;
+}
+#menu a.dropdown-arrow:after {
+	content: "\25BE";
+	margin-left: 5px;
+}
+#menu li a:hover {
+	color: #B500AF;
+	background: #000000;
+}
+#menu input {
+	display: none;
+	margin: 0;
+	padding: 0;
+	height: 58px;
+	width: 100%;
+	opacity: 0;
+	cursor: pointer
+}
+#menu label {
+	display: none;
+	line-height: 58px;
+	text-align: center;
+	position: absolute;
+	left: 35px
+}
+#menu label:before {
+	font-size: 1.6em;
+	color: #FFFFFF;
+	content: "\2261"; 
+	margin-left: 20px;
+}
+#menu ul.sub-menus{
+	height: auto;
+	overflow: hidden;
+	width: 170px;
+	background: #444444;
+	position: absolute;
+	z-index: 99;
+	display: none;
+}
+#menu ul.sub-menus li {
+	display: block;
+	text-align: left;
+	width: 100%;
+}
+#menu ul.sub-menus a {
+	color: #FFFFFF;
+	font-size: 16px;
+}
+#menu li:hover ul.sub-menus {
+	display: block
+}
+#menu ul.sub-menus a:hover{
+	background: #000000;
+	color: #B500AF;
+}
+@media screen and (max-width: 800px){
+	#menu {position:relative}
+	#menu ul {background:#444444;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none;text-align:left;}
+	#menu ul.sub-menus {width:100%;position:static;}
+	#menu ul.sub-menus a {padding-left:30px;}
+	#menu li {display:block;float:none;width:auto;}
+	#menu input, #menu label {position:absolute;top:0;left:0;display:block}
+	#menu input {z-index:4}
+	#menu input:checked + label {color:#FFFFFF}
+	#menu input:checked + label:before {content:"\00d7"}
+	#menu input:checked ~ ul {display:block}
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.right-side-menu{
+  float: right;
+  padding-right: 14px !important;
+}
+li span{
+  color: #FFFFFF;
+  font-size: 14px;
+}
+.right-side-menu-links{
+  font-size: 14px !important;
+  padding: 0px 2px !important;
+}
+div.top-list-group{
+	background-color:#292929;
+}
+.list-group-item-mydark{
+  --bs-list-group-bg: #1e1e1e;
+  --bs-list-group-color: #fff;
+  --bs-list-group-border-color: #1e1e1e;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 4px;
+}
+.list-group-item-mydark:hover{
+  --bs-list-group-color: #B500AF;
+}
+.paragraph{
+	background-color: #212121;
+  text-align: justify;
+  padding:16px 32px;
+}
+.modal{
+  --bs-modal-width:300px;
+}
+.modal .mb-3, .modal-body, input, .modal-footer, .modal-header .modal-dialog{
+  --bs-modal-width:300px;
+}
+div.modal-dialog{
+  --bs-modal-width:300px;
+}
+div.modal-footer{
+  justify-content: center;
+  --bs-modal-width:300px;
+}
+button.btn.btn-custom{
+  --bs-btn-color: #fff;
+  --bs-btn-bg:#B500AF;
+  --bs-btn-border-color: #B500AF;
+  --bs-btn-hover-color: #B500AF;
+  --bs-btn-hover-bg:#000;
+  --bs-btn-hover-border-color: #B500AF;
+}
+/*Table*/
+table.table tbody tr{
+	height: 18dvh;
+	border-radius: 2000px;
+	border-bottom: 0px;
+	margin-bottom: 6px;
+}
+tr td:nth-child(1){
+	border-top-left-radius: 50px;
+	border-bottom-left-radius: 50px;
+}
+tr td:nth-child(3){
+	border-top-right-radius: 50px;
+	border-bottom-right-radius: 50px;
+}
+table.table{
+	border-collapse: separate;
+	border-spacing: 0 15px;
+	text-align: center;
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+button.create-discussion.btn.btn-custom{
+	margin-top: 10px;
+	margin-right: 10px;
+	text-align: none;
+	float: left;
 }

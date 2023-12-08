@@ -81,7 +81,7 @@ namespace FinalCourseAssignment.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<ErrorHandlerMiddleware>();
+            //app.UseMiddleware<ErrorHandlerMiddleware>();
 
             dbContext.Database.Migrate();
 

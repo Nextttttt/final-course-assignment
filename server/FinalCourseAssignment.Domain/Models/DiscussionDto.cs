@@ -11,5 +11,7 @@ namespace FinalCourseAssignment.Domain.Models
         public string DiscussionText { get; set; }
         public List<CommentDto> Comments { get; set; }
         public Guid UserId { get; set; }
+        public string UserName { get; set; }
+        public int CommentCount { get; set; }
     }
 }

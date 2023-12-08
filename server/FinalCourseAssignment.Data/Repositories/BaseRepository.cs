@@ -49,7 +49,7 @@ namespace FinalCourseAssignment.Data.Repositories
             return false;
         }
 
-        public async Task<List<TDto>> GetAll()
+        public virtual async Task<List<TDto>> GetAll()
         {
             return _mapper.Map<List<TDto>>(await entities.ToListAsync());
         }

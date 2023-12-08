@@ -9,5 +9,6 @@ namespace FinalCourseAssignment.Domain.Services
 {
     public interface ICommentService : IBaseService<CommentDto>
     {
+        public Task<List<CommentDto>> GetAllByDiscussionId(Guid id);
     }
 }

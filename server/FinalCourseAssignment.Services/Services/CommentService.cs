@@ -13,10 +13,16 @@ namespace FinalCourseAssignment.Services.Services
 {
     public class CommentService : BaseService<CommentDto>, ICommentService
     {
+        private readonly ICommentRepository _commentRepository;
         public CommentService(ICommentRepository commentRepository)
             :base(commentRepository)
         {
             
+        }
+
+        public async Task<List<CommentDto>> GetAllByDiscussionId(Guid id)
+        {
+            return await _commentRepository.GetAllByDiscussionId(id);
         }
     }
 }

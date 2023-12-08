@@ -34,8 +34,14 @@ namespace FinalCourseAssignment.Api.Controllers
 
             UserDto user = _mapper.Map<UserDto>(model);
 
-            await _userService.Create(user);
-
+            try
+            {
+                await _userService.Create(user);
+            }
+            catch
+            {
+                return BadRequest("User with this Email, already exists!");
+            }
             return Created();
         }
         [HttpPost("Login")]
@@ -47,10 +53,20 @@ namespace FinalCourseAssignment.Api.Controllers
             }
 
             UserLoginDto user = _mapper.Map<UserLoginDto>(model);
-
-            var token = await _userService.VerifyUserLogin(user);
+            string json;
+            try 
+            { 
+                var token = await _userService.VerifyUserLogin(user); 
+                json = JsonConvert.SerializeObject(token);
+            }   
+            catch
+            {
+                return BadRequest("Email or Password Invalid!");
+            }
+            
             //remove "Bearer " when testing outside Swagger
-            string json = JsonConvert.SerializeObject("Bearer " + token);
+            //string json = JsonConvert.SerializeObject("Bearer " + token);
+           
 
             return Ok(json);
         }

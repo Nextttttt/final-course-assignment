@@ -8,6 +8,8 @@ namespace FinalCourseAssignment.Domain.Services
 {
     public interface IDiscussionService : IBaseService<DiscussionDto>
     {
-        
+        public Task<List<DiscussionDto>> GetAllByUserId(Guid id);
+        public Task<List<DiscussionDto>> GetTopFiveDiscussions();
+
     }
 }

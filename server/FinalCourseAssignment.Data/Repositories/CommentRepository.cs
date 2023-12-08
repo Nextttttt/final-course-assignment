@@ -3,6 +3,7 @@ using FinalCourseAssignment.Domain.Models;
 using FinalCourseAssignment.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,5 +17,9 @@ namespace FinalCourseAssignment.Data.Repositories
 
         }
 
+        public async Task<List<CommentDto>> GetAllByDiscussionId(Guid id)
+        {
+            return _mapper.Map<List<CommentDto>>(await entities.Where(e => e.DiscussionId == id).ToListAsync());
+        }
     }
 }

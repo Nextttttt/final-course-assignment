@@ -11,6 +11,7 @@ namespace FinalCourseAssignment.Api
             CreateMap<DiscussionDto, DiscussionViewModel>().ReverseMap();
             CreateMap<DiscussionDto, DiscussionUpdateViewModel>().ReverseMap();
             CreateMap<DiscussionDto, DiscussionCreateViewModel>().ReverseMap();
+            CreateMap<DiscussionDto, DiscussionTitleAndIdViewModel>().ReverseMap();
 
             CreateMap<CommentDto, CommentCreateViewModel>().ReverseMap();
             CreateMap<CommentDto, CommentUpdateViewModel>().ReverseMap();

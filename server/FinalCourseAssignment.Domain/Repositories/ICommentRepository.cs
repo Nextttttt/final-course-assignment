@@ -9,5 +9,6 @@ namespace FinalCourseAssignment.Domain.Repositories
 {
     public interface ICommentRepository : IBaseRepository<CommentDto>
     {
+        public Task<List<CommentDto>> GetAllByDiscussionId(Guid id);
     }
 }

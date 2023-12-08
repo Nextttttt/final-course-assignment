@@ -11,5 +11,7 @@ namespace FinalCourseAssignment.Api.ViewModels
         public string Title { get; set; }
         public string DiscussionText { get; set; }
         public Guid UserId { get; set; }
+        public string UserName { get; set; }
+        public int CommentCount { get; set; }
     }
 }

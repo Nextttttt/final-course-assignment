@@ -43,7 +43,7 @@ namespace FinalCourseAssignment.Services.Services
         {
             var hash = _keyDerivationWrapper.GeneratePdkdf2(
                 password: password,
-                salt: Encoding.ASCII.GetBytes(salt),
+                salt: Convert.FromBase64String(salt),
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: NumberConstants.IterationCount,
                 numBytesRequested: NumberConstants.KeySize);
@@ -68,8 +68,8 @@ namespace FinalCourseAssignment.Services.Services
             {
                 throw new ArgumentNullException(nameof(providedPassword));
             }
-
-            return hashedPassword == HashPassword(providedPassword, saltString).Password;
+            var hashedProvidedPassword = HashPassword(providedPassword, saltString).Password;
+            return hashedPassword == hashedProvidedPassword;
         }
 
         private bool VerifyHashedPassword(byte[] decodedHashedPassword, string providedPassword, string salt)

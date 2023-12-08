@@ -47,7 +47,7 @@ namespace FinalCourseAssignment.Services.Services
         {
             UserDto user = await _userRepository.GetUserByEmail(loginUser.Email);
 
-            if (user == null || _hasher.VerifyHashedPassword(loginUser.Password, user.Password, user.Salt)) 
+            if (user == null || !_hasher.VerifyHashedPassword(loginUser.Password, user.Password, user.Salt)) 
             {
                 throw new Exception("Invalid email or password!");
             }
