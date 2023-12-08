@@ -187,3 +187,6 @@ button.create-discussion.btn.btn-custom{
 	text-align: none;
 	float: left;
 }
+.action-btn{
+	margin-right: 8px;
+}

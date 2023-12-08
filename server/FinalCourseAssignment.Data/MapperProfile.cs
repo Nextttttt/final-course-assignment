@@ -9,7 +9,7 @@ namespace FinalCourseAssignment.Data
     {
         public MapperProfile() 
         {
-            CreateMap<DiscussionDto, Discussion>().ReverseMap();
+            CreateMap<DiscussionDto, Discussion>();
             CreateMap<Discussion, DiscussionDto>()
                 .ForMember(x => x.UserName, opt => opt.MapFrom(from => from.User.Username))
                 .ForMember(x => x.CommentCount, opt => opt.MapFrom(from => from.Comments.Count));

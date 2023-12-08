@@ -6,6 +6,7 @@ import NavigationMenu from './components/NavigationMenu';
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ForumList from './components/ForumList';
+import MyDiscussionsList from './components/MyDiscussionsList';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home loggedIn={loggedIn}/>} />
           <Route path='/discussions/all' element={<ForumList isLoggedIn={loggedIn} jwToken={jwToken}/>}/>
+          <Route path='/discussions/my' element={<MyDiscussionsList isLoggedIn={loggedIn} jwToken={jwToken}/>}/>
         </Routes>
 
         

@@ -4,7 +4,8 @@ import Button from "react-bootstrap/Button"
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CreateDiscussion from "./CreateDiscussion";
-export default function ForumList(props){
+
+export default function MyDiscussionsList(props){
 
         const [isNewCreated, setIsNew] = useState(false);
 
@@ -13,16 +14,32 @@ export default function ForumList(props){
                 id:'',
                 title:'',
                 discussionText:'',
-                userId:'',
-                userName:'',
-                commentCount:''
+                userId:''
             }]);
+            async function DeleteDiscussion(id)
+            {
+                let response =await fetch('https://localhost:5001/api/Discussion/DeleteDiscussion?id='+id,{
+            method: 'DELETE',
+            headers:{
+            'accept':'*/*',
+            'Authorization': 'Bearer ' + props.jwToken,
+            'Content-type':'application/json'
+            }});
+            if(response.ok)
+            {
+                setIsNew(true);
+            }
+            else{
+            console.log("HTTP-Error: "+response.status);
+            }
+            }
             async function GetDiscussions()
             {
-            let response =await fetch('https://localhost:5001/api/Discussion/All',{
+            let response =await fetch('https://localhost:5001/api/Discussion/My',{
             method: 'GET',
             headers:{
             'accept':'*/*',
+            'Authorization': 'Bearer ' + props.jwToken,
             'Content-type':'application/json'
             }});
             if(response.ok)
@@ -54,16 +71,20 @@ export default function ForumList(props){
         <thead>
           <tr>
             <th>Discussion Title</th>
-            <th>Author</th>
             <th>Comments</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
             {discussions.map(discussion =>
                 <tr key={discussion.id}>
                 <td className="align-middle">{discussion.title}</td>
-                <td className="align-middle">{discussion.userName}</td>
                 <td className="align-middle">{discussion.commentCount}</td>
+                <td className="align-middle">
+                <Button onClick={() => DeleteDiscussion(discussion.id)} className="action-btn"  variant="custom">Delete</Button>
+                <Button className="action-btn" variant="custom">Update</Button>
+                <Button className="action-btn" variant="custom">Open</Button>
+                </td>
               </tr>
                 )}
         </tbody>

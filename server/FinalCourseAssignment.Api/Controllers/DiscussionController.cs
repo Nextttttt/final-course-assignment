@@ -54,8 +54,10 @@ namespace FinalCourseAssignment.Api.Controllers
         }
         [Authorize]
         [HttpGet("My")]
-        public async Task<IActionResult> GetAllByUserId(Guid id)
+        public async Task<IActionResult> GetAllByUserId()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var id = Guid.Parse(userId);
             List<DiscussionViewModel> discussions = _mapper.Map<List<DiscussionViewModel>>(await _discussionService.GetAllByUserId(id));
 
             return Ok(discussions);
