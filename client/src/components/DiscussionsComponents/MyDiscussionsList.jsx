@@ -10,7 +10,7 @@ export default function MyDiscussionsList(props){
 
         const navigation = useNavigate();
 
-        const [isNewCreated, setIsNew] = useState(false);
+        const [isNewCreated, setIsNew] = useState(0);
 
         const [discussions, setDiscussions] = useState([
             {
@@ -57,7 +57,7 @@ export default function MyDiscussionsList(props){
 
         useEffect(() => {
         GetDiscussions();
-        setIsNew(false);
+        setIsNew(0);
         }, [isNewCreated]);
 
         const HandleDiscussonRowRouting = (id) => {
@@ -66,7 +66,7 @@ export default function MyDiscussionsList(props){
         }
     return (
         <>
-        <div>{props.isLoggedIn ?
+        <div className='wrapper-body'> {props.isLoggedIn ?
             (
             <>
             <CreateDiscussion jwToken={props.jwToken} setIsNew={setIsNew}/>            

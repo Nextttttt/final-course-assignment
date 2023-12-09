@@ -4,7 +4,7 @@ import TopDiscussions from './TopDiscussions';
 export default function Home (props) {
  
   return (
-    <>
+    <div className='wrapper-body'>
     <div className='top-list-group'>
         <h2>Top 5 Discussions</h2>
         <TopDiscussions jwToken={props.jwToken}/>
@@ -37,6 +37,6 @@ export default function Home (props) {
           commodo consequat.
         </p>
       </div>
-      </>
+      </div>
   );
 };

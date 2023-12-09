@@ -8,7 +8,7 @@ export default function ForumList(props){
 
         const navigation = useNavigate();
 
-        const [isNewCreated, setIsNew] = useState(false);
+        const [isNewCreated, setIsNew] = useState(0);
 
         const [discussions, setDiscussions] = useState([
             {
@@ -39,7 +39,7 @@ export default function ForumList(props){
 
         useEffect(() => {
         GetDiscussions();
-        setIsNew(false);
+        setIsNew(0);
         }, [isNewCreated])
 
 
@@ -50,7 +50,7 @@ export default function ForumList(props){
 
     return (
         <>
-        <div>{props.isLoggedIn ?
+        <div className='wrapper-body'>{props.isLoggedIn ?
             (
             <>
             <CreateDiscussion jwToken={props.jwToken} setIsNew={setIsNew}/>            

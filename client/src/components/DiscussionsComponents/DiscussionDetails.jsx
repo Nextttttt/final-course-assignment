@@ -48,7 +48,7 @@ export default function DiscussionDetails(props){
       }, [isNewCreated])
     return (
         <>
-        <div>
+        <div className='wrapper-body'>
       <h1>{discussion.title}</h1>
       <p style={{ fontSize: '14px', color: '#888' }}>by {discussion.userName}</p>
       

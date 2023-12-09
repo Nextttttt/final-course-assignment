@@ -61,7 +61,7 @@ export default function CreateDiscussion(props){
                 })
           })
           setShow(false);
-          props.setIsNew(true);
+          props.setIsNew(2);
           
         }
     

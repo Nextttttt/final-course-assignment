@@ -8,6 +8,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ForumList from './components/DiscussionsComponents/ForumList';
 import MyDiscussionsList from './components/DiscussionsComponents/MyDiscussionsList';
 import DiscussionDetails from './components/DiscussionsComponents/DiscussionDetails';
+import About from './components/About';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -32,6 +34,7 @@ function App() {
           <Route path="/" element={<Home loggedIn={loggedIn}/>} />
           <Route path="*" element={<Home loggedIn={loggedIn}/>} />
           <Route path='/discussions/all' element={<ForumList isLoggedIn={loggedIn} jwToken={jwToken}/>}/>
+          <Route path="/about" element={<About loggedIn={loggedIn}/>} />
           {loggedIn ? (
             <>
             <Route path='/discussions/my' element={<MyDiscussionsList isLoggedIn={loggedIn} jwToken={jwToken}/>}/>
@@ -41,7 +44,7 @@ function App() {
           : ("")}
         </Routes>
 
-        
+        <Footer/>
       </BrowserRouter>
 
     </div>

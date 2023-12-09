@@ -5,6 +5,7 @@ import UserRegister from './UsersComponents/UserRegister';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import './NavigationMenu.css'
 
 export default function NavigationMenu(props) {
     function updatemenu() {
@@ -30,7 +31,7 @@ export default function NavigationMenu(props) {
       },[]);
       
   return (
-    <nav id='menu'>
+    <nav id='menu' className='sticky'>
   <input type='checkbox' id='responsive-menu' onClick={updatemenu} /><label></label>
   <ul>
     <li><Link to={'/'}>Home</Link></li>

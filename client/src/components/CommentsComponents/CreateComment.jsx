@@ -51,7 +51,7 @@ export default function CreateComment(props){
                 })
           })
           setShow(false);
-          props.setIsNew(true);
+          props.setIsNew(1);
           
         }
 
