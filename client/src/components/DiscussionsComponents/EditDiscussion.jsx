@@ -11,7 +11,7 @@ const ErrorDiv = styled.div`
 color: #d60000;
 `
 
-export default function CreateDiscussion(props){
+export default function EditDiscussion(props){
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -19,18 +19,10 @@ export default function CreateDiscussion(props){
 
     const formik = useFormik({
       initialValues: {
-        title: '',
         text: ''
       },
       validate: (values) => {
         const errors = {};
-  
-        // Title validation
-        if (!values.title.trim()) {
-          errors.title = 'Title is required';
-        } else if (values.title.length < 5) {
-          errors.title = 'Title must be at least 5 characters';
-        }
   
         // Text validation
         if (!values.text.trim()) {
@@ -41,23 +33,22 @@ export default function CreateDiscussion(props){
         return errors;
       },
       onSubmit: (values) => {
-        CreateMyDiscussion(values);
+        UpdateMyDiscussion(values);
         values.text="";
-        values.title="";
       },
     });
 
-    const CreateMyDiscussion= async (values) =>{
-        fetch('https://localhost:5001/api/Discussion/CreateDiscussion',{
-            method: 'POST',
+    async function UpdateMyDiscussion(values){
+        fetch('https://localhost:5001/api/Discussion/UpdateDiscussion',{
+            method: 'PUT',
             headers:{
               'accept':'*/*',
               'Authorization': 'Bearer ' + props.jwToken,
               'Content-type':'application/json'
           },
               body: JSON.stringify({
-                  "Title": values.title,
-                  "discussionText": values.text,
+                  "id":props.DiscussionId,
+                  "discussionText": values.text
                 })
           })
           setShow(false);
@@ -67,7 +58,7 @@ export default function CreateDiscussion(props){
     
     return (
         <>
-        <Button onClick={handleShow} className="create-discussion" variant="custom">Create Discussion</Button>
+        <Button onClick={handleShow} className="action-btn" variant="custom">Update</Button>
 
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -75,20 +66,11 @@ export default function CreateDiscussion(props){
         </Modal.Header>
         <Modal.Body>
             <Form onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-3" controlId="title">
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label>Title</Form.Label>
-                <Form.Control 
-                type="text" 
-                name="title"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.title}
-                placeholder="Discussion Title" />
-                {formik.touched.title && formik.errors.title && (
-                <ErrorDiv className="error">{formik.errors.title}</ErrorDiv>
-                )}
+                <Form.Control disabled type="title" placeholder={props.discussionTitle} />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="text">
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                 <Form.Label>Text</Form.Label>
                 <Form.Control 
                 as="textarea"
@@ -96,15 +78,15 @@ export default function CreateDiscussion(props){
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.text}
-                placeholder=". . ." />
+                placeholder={props.discussionText} />
                 {formik.touched.text && formik.errors.text && (
                 <ErrorDiv className="error">{formik.errors.text}</ErrorDiv>
                 )}
             </Form.Group>
             <Modal.Footer>
-            <Button type="submit" variant="custom">
-              Create
-            </Button>
+          <Button variant="custom" type="submit">
+            Update
+          </Button>
         </Modal.Footer>
             </Form>
         </Modal.Body>

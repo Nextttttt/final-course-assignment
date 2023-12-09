@@ -3,6 +3,12 @@ import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import  Form  from "react-bootstrap/Form";
+import {useFormik} from 'formik';
+import styled from 'styled-components'
+
+const ErrorDiv = styled.div`
+color: #d60000;
+`
 
 export default function CreateComment(props){
     const [show, setShow] = useState(false);
@@ -10,9 +16,28 @@ export default function CreateComment(props){
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [text, setText] = useState("");
+    const formik = useFormik({
+      initialValues: {
+        text: ''
+      },
+      validate: (values) => {
+        const errors = {};
+  
+        // Text validation
+        if (!values.text.trim()) {
+          errors.text = 'Text is required';
+        } else if (values.text.length < 20) {
+          errors.text = 'Text must be at least 20 characters';
+        }
+        return errors;
+      },
+      onSubmit: (values) => {
+        CreateMyComment(values);
+        values.text="";
+      },
+    });
 
-    async function CreateMyComment(){
+    async function CreateMyComment(values){
         fetch('https://localhost:5001/api/Comment/CreateComment',{
             method: 'POST',
             headers:{
@@ -22,7 +47,7 @@ export default function CreateComment(props){
           },
               body: JSON.stringify({
                     "discussionId":props.discussionId,
-                  "text": text
+                  "text": values.text
                 })
           })
           setShow(false);
@@ -39,18 +64,28 @@ export default function CreateComment(props){
           <Modal.Title>Create Comment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
+            <Form onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                 <Form.Label>Text</Form.Label>
-                <Form.Control onChange={ev => setText(ev.target.value)} as="textarea" placeholder=". . ." />
+                <Form.Control 
+               as="textarea"
+               name="text"
+               onChange={formik.handleChange}
+               onBlur={formik.handleBlur}
+               value={formik.values.text}
+               placeholder={props.discussionText} />
+               {formik.touched.text && formik.errors.text && (
+               <ErrorDiv className="error">{formik.errors.text}</ErrorDiv>
+               )}
             </Form.Group>
+            <Modal.Footer>
+            <Button variant="custom" type="submit">
+              Create
+            </Button>
+            </Modal.Footer>
             </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="custom" onClick={CreateMyComment}>
-            Create
-          </Button>
-        </Modal.Footer>
+        
       </Modal>
       </>
     );

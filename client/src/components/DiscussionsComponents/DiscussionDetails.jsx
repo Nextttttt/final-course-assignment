@@ -53,7 +53,7 @@ export default function DiscussionDetails(props){
       <p style={{ fontSize: '14px', color: '#888' }}>by {discussion.userName}</p>
       
       <div style={{ marginTop: '20px' }}>
-        <p>{discussion.discussionText}</p>
+        <p className='paragraph'>{discussion.discussionText}</p>
       </div>
 
       <div style={{ marginTop: '30px' }}>

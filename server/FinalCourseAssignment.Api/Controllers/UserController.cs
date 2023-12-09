@@ -53,7 +53,7 @@ namespace FinalCourseAssignment.Api.Controllers
             }
 
             UserLoginDto user = _mapper.Map<UserLoginDto>(model);
-            string json;
+            string json = "";
             try 
             { 
                 var token = await _userService.VerifyUserLogin(user); 

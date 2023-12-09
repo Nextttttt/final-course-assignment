@@ -9,7 +9,6 @@ import ForumList from './components/DiscussionsComponents/ForumList';
 import MyDiscussionsList from './components/DiscussionsComponents/MyDiscussionsList';
 import DiscussionDetails from './components/DiscussionsComponents/DiscussionDetails';
 
-
 function App() {
 
   const [loggedIn, setLoggedIn] = useState(false)

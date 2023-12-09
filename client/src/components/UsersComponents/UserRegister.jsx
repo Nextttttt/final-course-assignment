@@ -3,30 +3,57 @@ import { useNavigate, Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import  Form  from "react-bootstrap/Form";
+import {useFormik} from 'formik';
+import styled from 'styled-components'
 
-export default function UserLogin(){
+const ErrorDiv = styled.div`
+color: #d60000;
+`
+
+export default function UserRegister(){
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [username, setUsername] = useState("");
 
-    const [email, setEmail] = useState("")
+    const formik = useFormik({
+      initialValues: {
+        username: '',
+        email: '',
+        password: '',
+      },
+      validate: (values) => {
+        const errors = {};
+  
+        // Username validation
+        if (!values.username.trim()) {
+          errors.username = 'Username is required';
+        } else if (values.username.length < 3) {
+          errors.username = 'Username must be at least 3 characters';
+        }
+  
+        // Email validation
+        if (!values.email.trim()) {
+          errors.email = 'Email is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+          errors.email = 'Invalid email address';
+        }
+  
+        // Password validation
+        if (!values.password) {
+          errors.password = 'Password is required';
+        } else if (values.password.length < 6) {
+          errors.password = 'Password must be at least 6 characters';
+        }
+        return errors;
+      },
+      onSubmit: (values) => {
+        RegisterUser(values);
+      },
+    });
 
-    const [password, setPassword] = useState("")
-
-    const [emailError, setEmailError] = useState("")
-
-    const [passwordError, setPasswordError] = useState("")
-
-    
-
-    const navigate = useNavigate();
-
-        
-
-    const RegisterUser = () => {
+    const RegisterUser = async (values) => {
 
         fetch('https://localhost:5001/api/User/Register',{
       method: 'POST',
@@ -35,11 +62,11 @@ export default function UserLogin(){
         'Content-type':'application/json'
     },
         body: JSON.stringify({
-            "username": username,
-            "email": email,
-            "password": password 
+            "username": values.username,
+            "email": values.email,
+            "password": values.password 
           })
-    })
+    }).then(async response => alert(await response.text()));
       setShow(false);
     }
 
@@ -53,26 +80,53 @@ export default function UserLogin(){
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form onSubmit={formik.handleSubmit}>
+            <Form.Group className="mb-3" controlId="username">
                 <Form.Label>Username</Form.Label>
-                <Form.Control onChange={ev => setUsername(ev.target.value)} type="email" placeholder="Username" />
+                <Form.Control
+                type="text"
+                name="username"
+            	  onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.username}
+                placeholder="Username" />
+                {formik.touched.username && formik.errors.username && (
+                <ErrorDiv className="error">{formik.errors.username}</ErrorDiv>
+                )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+            <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control onChange={ev => setEmail(ev.target.value)} type="email" placeholder="name@example.com" />
+                <Form.Control 
+                type="email"
+                name="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                placeholder="name@example.com" />
+                {formik.touched.email && formik.errors.email && (
+                <ErrorDiv className="error">{formik.errors.email}</ErrorDiv>
+                )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+            <Form.Group className="mb-3" controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control onChange={ev => setPassword(ev.target.value)} type="password" placeholder="*******" />
+                <Form.Control 
+                type="password" 
+                name="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                placeholder="*******" />
+                {formik.touched.password && formik.errors.password && (
+                <ErrorDiv className="error">{formik.errors.password}</ErrorDiv>
+                )}
             </Form.Group>
+            <Modal.Footer>
+            <Button type="submit" variant="custom">
+              Register
+            </Button>
+        </Modal.Footer>
             </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="custom" onClick={RegisterUser}>
-            Register
-          </Button>
-        </Modal.Footer>
       </Modal>
       </>
       );

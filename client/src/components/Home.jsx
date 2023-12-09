@@ -1,13 +1,13 @@
 import React from 'react';
 import TopDiscussions from './TopDiscussions';
 
-export default function Home () {
+export default function Home (props) {
  
   return (
     <>
     <div className='top-list-group'>
         <h2>Top 5 Discussions</h2>
-        <TopDiscussions></TopDiscussions>
+        <TopDiscussions jwToken={props.jwToken}/>
     </div>
       <div className={'text'}>
         <p className='paragraph'>

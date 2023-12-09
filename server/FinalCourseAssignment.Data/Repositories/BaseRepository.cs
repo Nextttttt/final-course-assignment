@@ -62,7 +62,7 @@ namespace FinalCourseAssignment.Data.Repositories
             return dto;
         }
 
-        public async Task<bool> Update(TDto dto)
+        public virtual async Task<bool> Update(TDto dto)
         {
             TEntity entity = _mapper.Map<TEntity>(dto);
 

@@ -11,6 +11,7 @@
 }
 
 #menu {
+	box-shadow: -4px 4px 12px 0px rgba(217, 213, 0, 0.486), -10px 5px 10px 0 rgba(74, 70, 0, 0.372);
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 1280px;
@@ -135,6 +136,7 @@ div.top-list-group{
   --bs-list-group-color: #B500AF;
 }
 .paragraph{
+	box-shadow: -4px 4px 12px 0px rgba(217, 0, 210, 0.486), -10px 5px 10px 0 rgba(74, 0, 71, 0.372);
 	background-color: #212121;
   text-align: justify;
   padding:16px 32px;
@@ -163,9 +165,16 @@ button.btn.btn-custom{
 /*Table*/
 table.table tbody tr{
 	height: 18dvh;
-	border-radius: 2000px;
-	border-bottom: 0px;
+	box-shadow: -4px 4px 12px 0px rgba(217, 0, 210, 0.486), -10px 5px 10px 0 rgba(74, 0, 71, 0.372);
 	margin-bottom: 6px;
+
+}
+
+table.table tbody tr:hover{
+	height: 18dvh;
+	box-shadow: -4px 4px 20px 0px rgba(255, 2, 247, 0.678), -10px 10px 10px 0 rgba(140, 0, 135, 0.524);
+	margin-bottom: 6px;
+
 }
 
 table.table{
@@ -184,6 +193,7 @@ button.create-discussion.btn.btn-custom{
 	margin-right: 8px;
 }
 .comment-section{
+	box-shadow: -4px 4px 12px 0px rgba(0, 90, 217, 0.486), -10px 5px 10px 0 rgba(0, 26, 74, 0.372);
 	background-color: #1e1e1e;
 }
 .card.comment-card{

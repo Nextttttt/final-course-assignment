@@ -44,5 +44,14 @@ namespace FinalCourseAssignment.Data.Repositories
         {
             return _mapper.Map<List<DiscussionDto>>(await entities.OrderByDescending(e => e.Comments.Count).Take(5).ToListAsync());
         }
+
+        public override async Task<bool> Update(DiscussionDto dto)
+        {
+            Discussion entity = await entities.FirstOrDefaultAsync(e => e.Id == dto.Id);
+            entity.DiscussionText = dto.DiscussionText;
+            _dbContext.Update(entity);
+            ;
+            return Convert.ToBoolean(await _dbContext.SaveChangesAsync());
+        }
     }
 }

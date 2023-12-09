@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import  Form  from "react-bootstrap/Form";
+import {useFormik} from 'formik';
+import styled from 'styled-components'
+
+const ErrorDiv = styled.div`
+color: #d60000;
+`
 
 export default function UserLogin(props){
     const [show, setShow] = useState(false);
@@ -10,13 +16,35 @@ export default function UserLogin(props){
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [email, setEmail] = useState("");
+    const formik = useFormik({
+      initialValues: {
+        email: '',
+        password: '',
+      },
+      validate: (values) => {
+        const errors = {};
 
-    const [password, setPassword] = useState("");
+        // Email validation
+        if (!values.email.trim()) {
+          errors.email = 'Email is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+          errors.email = 'Invalid email address';
+        }
+  
+        // Password validation
+        if (!values.password) {
+          errors.password = 'Password is required';
+        } else if (values.password.length < 6) {
+          errors.password = 'Password must be at least 6 characters';
+        }
+        return errors;
+      },
+      onSubmit: (values) => {
+        LoginUser(values);
+      },
+    });
 
-    const navigate = useNavigate();
-
-    const LoginUser = async () => {
+    const LoginUser = async (values) => {
 
         let response =await fetch('https://localhost:5001/api/User/Login',{
       method: 'POST',
@@ -25,17 +53,19 @@ export default function UserLogin(props){
         'Content-type':'application/json'
     },
         body: JSON.stringify({
-            "email": email,
-            "password": password 
+            "email": values.email,
+            "password": values.password 
           })
     });
         if(response.ok)
         {
           props.setLoggedIn(true);
-          localStorage.setItem("jwToken", await response.json());
+          let data = await response.json();
+          localStorage.setItem("jwToken", data);
+          props.setToken(data);
         }
         else{
-          console.log("HTTP-Error: "+response.status);
+          alert(await response.text());
         }
         setShow(false);
     }
@@ -49,22 +79,40 @@ export default function UserLogin(props){
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form onSubmit={formik.handleSubmit}>
+            <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control onChange={ev => setEmail(ev.target.value)} type="email" placeholder="name@example.com" />
+                <Form.Control 
+                type="email"
+                name="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                placeholder="name@example.com" />
+                {formik.touched.email && formik.errors.email && (
+                <ErrorDiv className="error">{formik.errors.email}</ErrorDiv>
+                )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control onChange={ev => setPassword(ev.target.value)} type="password" placeholder="*******" />
+                <Form.Control 
+                type="password"
+                name="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                placeholder="*******" />\
+                {formik.touched.password && formik.errors.password && (
+                <ErrorDiv className="error">{formik.errors.password}</ErrorDiv>
+                )}
             </Form.Group>
+            <Modal.Footer>
+            <Button type="submit" variant="custom">
+              Login
+            </Button>
+        </Modal.Footer>
             </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="custom" onClick={LoginUser}>
-            Login
-          </Button>
-        </Modal.Footer>
       </Modal>
       </>
       );

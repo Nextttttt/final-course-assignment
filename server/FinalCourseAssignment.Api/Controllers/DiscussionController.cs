@@ -48,7 +48,6 @@ namespace FinalCourseAssignment.Api.Controllers
             discussion.Comments = _mapper.Map<List<CommentViewModel>>(await _commentService.GetAllByDiscussionId(discussion.Id));
             return Ok(discussion);
         }
-        [Authorize]
         [HttpGet("Top")]
         public async Task<IActionResult> GetTopFiveDiscussions()
         {

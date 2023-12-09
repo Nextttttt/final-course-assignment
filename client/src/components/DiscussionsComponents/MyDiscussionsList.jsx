@@ -2,10 +2,13 @@ import React from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button"
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CreateDiscussion from "./CreateDiscussion";
+import EditDiscussion from "./EditDiscussion";
 
 export default function MyDiscussionsList(props){
+
+        const navigation = useNavigate();
 
         const [isNewCreated, setIsNew] = useState(false);
 
@@ -30,7 +33,7 @@ export default function MyDiscussionsList(props){
                 setIsNew(true);
             }
             else{
-            console.log("HTTP-Error: "+response.status);
+              alert(await response.text());
             }
             }
             async function GetDiscussions()
@@ -48,21 +51,25 @@ export default function MyDiscussionsList(props){
             setDiscussions(data);
             }
             else{
-            console.log("HTTP-Error: "+response.status);
+              alert(await response.text());
             }
         }
 
         useEffect(() => {
         GetDiscussions();
         setIsNew(false);
-        }, [isNewCreated])
+        }, [isNewCreated]);
+
+        const HandleDiscussonRowRouting = (id) => {
+          if(props.isLoggedIn)
+            navigation('/discussions/details/'+id);
+        }
     return (
         <>
         <div>{props.isLoggedIn ?
             (
             <>
             <CreateDiscussion jwToken={props.jwToken} setIsNew={setIsNew}/>            
-            <Link to={"/discussions/my"}><Button className="create-discussion" variant="custom">My Discussions</Button></Link>
             </>
             )
             :("")
@@ -82,8 +89,8 @@ export default function MyDiscussionsList(props){
                 <td className="align-middle">{discussion.commentCount}</td>
                 <td className="align-middle">
                 <Button onClick={() => DeleteDiscussion(discussion.id)} className="action-btn"  variant="custom">Delete</Button>
-                <Button className="action-btn" variant="custom">Update</Button>
-                <Button className="action-btn" variant="custom">Open</Button>
+                <EditDiscussion setIsNew={setIsNew} jwToken={props.jwToken} DiscussionId={discussion.id} discussionTitle={discussion.title} discussionText={discussion.discussionText}/>
+                <Button onClick={() => HandleDiscussonRowRouting(discussion.id)} className="action-btn" variant="custom">Open</Button>
                 </td>
               </tr>
                 )}
